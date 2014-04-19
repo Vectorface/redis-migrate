@@ -5,15 +5,23 @@
     "keywords": ["cli", "redis", "db", "key", "migration", "migrate", "tool"],
     "author": "Daniel St. Jules <danielst.jules@gmail.com>",
     "licenses": ["MIT"],
-    "main": "lib/patternEmitter.js",
     "homepage": "https://github.com/Vectorface/redis-migrate",
     "repository": {
         "type": "git",
         "url": "https://github.com/Vectorface/redis-migrate.git"
     },
+    "dependencies": {
+        "redis": "*",
+        "async": "*",
+        "commander": "2.1.0"
+    },
     "devDependencies": {
         "mocha": "*",
-        "expect.js": "*"
+        "expect.js": "*",
+        "fakeredis": "*"
+    },
+    "bin": {
+        "redis-migrate": "./bin/redis-migrate"
     },
     "scripts": {
         "test": "./node_modules/.bin/mocha -R spec spec"

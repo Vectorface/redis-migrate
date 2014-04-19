@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+var path      = require('path');
+var commander = require('commander');
+var redis     = require('redis');
+var migrator  = require('../');
+
+var action, error, migrationName, cwd;
+
+process.on('uncaughtException', function(err) {
+  console.log(err.stack);
+  process.exit(1);
+});
+
+// Setup option parsing
+commander
+  .version('0.0.0')
+  .usage('[up|down|create] <migrationName>')
+  .parse(process.argv);
+
+action = commander.args[0];
+
+// Check that a valid action was passed, as well as a filename
+validateArgs(function(err) {
+  if (!err) return;
+
+  console.log(err);
+  process.exit(3);
+});
+
+migrationName = commander.args[1];
+cwd = process.cwd();
+
+// Run the migrate tool for the given action and file
+if (action === 'create') {
+  migrator.create(cwd, migrationName, function(err) {
+    if (err) {
+      console.log('Creation failed:', err);
+      process.exit(4);
+    }
+
+    console.log('Migration file successfully created');
+    process.exit(0);
+  });
+} else {
+  var redisClient = redis.createClient();
+  migrator[action](redisClient, cwd, migrationName, function(err) {
+    if (err) {
+      console.log('Migration failed:', err);
+      process.exit(4);
+    }
+
+    console.log('Migration complete');
+    process.exit(0);
+  });
+}
+
+/**
+ * Validates the given command line arguments, passing an Error object
+ * to the callback on failure.
+ *
+ * @param {function} fn The callback to invoke
+ */
+function validateArgs(fn) {
+  // Must be one of up, down, create
+  if (['up', 'down', 'create'].indexOf(action) === -1) {
+    return fn(new Error('Options must be one of [up|down|create]'));
+  }
+
+  if (!commander.args[1]) {
+    return fn(new Error('Migration name must be provided'));
+  }
+}
