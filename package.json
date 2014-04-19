@@ -1,0 +1,21 @@
+{
+    "name": "redis-migrate",
+    "version": "0.0.0",
+    "description": "CLI tool to create and run redis key migrations",
+    "keywords": ["cli", "redis", "db", "key", "migration", "migrate", "tool"],
+    "author": "Daniel St. Jules <danielst.jules@gmail.com>",
+    "licenses": ["MIT"],
+    "main": "lib/patternEmitter.js",
+    "homepage": "https://github.com/Vectorface/redis-migrate",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Vectorface/redis-migrate.git"
+    },
+    "devDependencies": {
+        "mocha": "*",
+        "expect.js": "*"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/mocha -R spec spec"
+    }
+}
