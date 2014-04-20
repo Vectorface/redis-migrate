@@ -32,27 +32,27 @@ Options:
 ``` javascript
 exports.up = [
   {
-    cmd:  'moveKeysToHashFields',
-    src:  {key: /(app:user:\d+):address/},
-    dst:  {key: '$1:properties', field: 'address'}
+    cmd: 'moveKeysToHashFields',
+    src: {key: /(app:user:\d+):address/},
+    dst: {key: '$1:properties', field: 'address'}
   },
   {
-    cmd:  'renameKeys',
-    src:  {key: /(app:post:\d+):lastModifiedTimestamp/},
-    dst:  {key: '$1:lastModified'}
+    cmd: 'renameKeys',
+    src: {key: /(app:post:\d+):lastModifiedTimestamp/},
+    dst: {key: '$1:lastModified'}
   }
 ];
 
 exports.down = [
   {
-    cmd:  'moveHashFieldsToKeys',
-    src:  {key: /(app:user:\d+):properties/, field: 'address'},
-    dst:  {key: '$1:address'}
+    cmd: 'moveHashFieldsToKeys',
+    src: {key: /(app:user:\d+):properties/, field: 'address'},
+    dst: {key: '$1:address'}
   },
   {
-    cmd:  'renameKeys',
-    src:  {key: /(app:post:\d+):lastModified/},
-    dst:  {key: '$1:lastModifiedTimestamp'}
+    cmd: 'renameKeys',
+    src: {key: /(app:post:\d+):lastModified/},
+    dst: {key: '$1:lastModifiedTimestamp'}
   }
 ];
 ```
