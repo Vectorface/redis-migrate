@@ -1,1 +1,1 @@
-module.exports = require('./lib/migrator.js');
+module.exports = require('./lib/runner.js');

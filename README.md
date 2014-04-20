@@ -32,12 +32,12 @@ Options:
 ``` javascript
 exports.up = [
   {
-    func: 'moveKeysToHashFields',
+    cmd:  'moveKeysToHashFields',
     src:  {key: /(app:user:\d+):address/},
     dst:  {key: '$1:properties', field: 'address'}
   },
   {
-    func: 'renameKeys',
+    cmd:  'renameKeys',
     src:  {key: /(app:post:\d+):lastModifiedTimestamp/},
     dst:  {key: '$1:lastModified'}
   }
@@ -45,13 +45,12 @@ exports.up = [
 
 exports.down = [
   {
-    func: 'moveHashFieldsToKeys',
+    cmd:  'moveHashFieldsToKeys',
     src:  {key: /(app:user:\d+):properties/, field: 'address'},
     dst:  {key: '$1:address'}
   },
-
   {
-    func: 'renameKeys',
+    cmd:  'renameKeys',
     src:  {key: /(app:post:\d+):lastModified/},
     dst:  {key: '$1:lastModifiedTimestamp'}
   }
