@@ -19,19 +19,24 @@ var postData = {
   'app:post:3:lastModifiedTimestamp': '1397825140'
 };
 
-exports.loadData = loadData;
+var threadData = {
+  'app:thread:1:properties': {views: 1, replies: 4},
+  'app:thread:2:properties': {views: 2, replies: 5},
+  'app:thread:3:properties': {views: 3, replies: 6},
+};
 
 /**
- * Given an object, saves each key value pair to redis using SET.
+ * Given an object, performs the given redis command to each key value pair.
  *
- * @param {Object}   data Object to save
- * @param {function} fn   The callback to invoke
+ * @param {string}   command The redis command to be applied to each pair
+ * @param {Object}   data    Fixtures to iterate
+ * @param {function} fn      The callback to invoke
  */
-function loadData(data, fn) {
+function applyToFixtures(command, data, fn) {
   var multi = redis.multi();
 
   async.each(Object.keys(data), function(key, next) {
-    multi.set(key, data[key]);
+    multi[command](key, data[key]);
     next();
   }, function(err) {
     multi.exec(fn);
@@ -46,10 +51,13 @@ function loadData(data, fn) {
 exports.loadFixtures = function(fn) {
   async.series([
     function(next) {
-      loadData(userData, next);
+      applyToFixtures('set', userData, next);
     },
     function(next) {
-      loadData(postData, next);
+      applyToFixtures('set', postData, next);
+    },
+    function(next) {
+      applyToFixtures('hmset', threadData, next);
     }
   ], fn);
 };
@@ -60,8 +68,9 @@ exports.loadFixtures = function(fn) {
  * @returns {string[]} An array of strings indicating the inserted keys
  */
 exports.getKeys = function() {
-  var userKeys = Object.keys(userData);
-  var postKeys = Object.keys(postData);
+  var userKeys   = Object.keys(userData);
+  var postKeys   = Object.keys(postData);
+  var threadKeys = Object.keys(threadData);
 
-  return userKeys.concat(postKeys);
+  return userKeys.concat(postKeys).concat(threadKeys);
 };
