@@ -1,14 +1,19 @@
 redis-migrate
 =============
 
-CLI tool to create and run redis key migrations. A migration file consists of
-a single exported object with two keys: `up` and `down`. The current release is
-designed to be backwards compatible with Redis 2.6 and 2.4. As such, it uses
-`KEYS`, which is blocking and should not be used on a production db when dealing
-with any significant number of keys. Future releases will allow for non-blocking
-operation using `SCAN`, `HSCAN`, etc.
+CLI tool to create and run redis key migrations.
 
-#### Installation
+[![Build Status](https://travis-ci.org/Vectorface/redis-migrate.png)](https://travis-ci.org/Vectorface/redis-migrate)
+
+## Overview
+
+A migration file consists of a single exported object with two keys: `up` and
+`down`. The current release is designed to be backwards compatible with Redis
+2.6 and 2.4. As such, it uses `KEYS`, which is blocking and should not be used
+on a production db when dealing with any significant number of keys. Future
+releases will allow for non-blocking operation using `SCAN`, `HSCAN`, etc.
+
+## Installation
 
 It can be installed via `npm` using:
 
@@ -16,7 +21,7 @@ It can be installed via `npm` using:
 npm install -g redis-migrate
 ```
 
-#### Usage
+## Usage
 
 ```
 Usage: redis-migrate [up|down|create] <migrationName>
@@ -27,7 +32,7 @@ Options:
   -V, --version  output the version number
 ```
 
-#### Example Migration File
+## Example Migration File
 
 ``` javascript
 exports.up = [
