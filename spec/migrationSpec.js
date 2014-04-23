@@ -88,6 +88,8 @@ describe('Migration', function() {
   });
 
   describe('loadFromFile', function() {
+    var previousWrite;
+
     before(function() {
       var fileContents = fixtures.getMigrationFileExample();
       mockfs({
@@ -109,7 +111,18 @@ describe('Migration', function() {
       });
     });
 
-    it('invokes the callback with an error if the file is not valid js', function(done) {
+    /**
+     * This spec, due to requiring an invalid file, will result in the
+     * following console output:
+     *
+     * /test/invalid.js:1
+     * on (exports, require, module, __filename, __dirname) { exports.up ==== test &&
+     *
+     * This is to be expected, however, the output can't be suppressed by
+     * simply overwriting process.stdout.write. As such, it will be skipped
+     * until I find an appropriate solution.
+     */
+    it.skip('invokes the callback with an error if the file is not valid js', function(done) {
       Migration.loadFromFile('/test', 'invalid.js', function(err, migration) {
         expect(err).to.be.an(Error);
         expect(err.message).to.be('Invalid migration file');
