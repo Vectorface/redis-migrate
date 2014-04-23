@@ -1,7 +1,6 @@
-var redis          = require('fakeredis').createClient('0', '0.0.0.0', {fast: true});
-var expect         = require('expect.js');
-var fixtures       = require('./fixtures');
-var utils          = require('../lib/utils');
+var redis  = require('fakeredis').createClient('0', '0.0.0.0', {fast: true});
+var expect = require('expect.js');
+var utils  = require('../lib/utils');
 
 describe('utils', function() {
   describe('getGlobPattern', function() {
