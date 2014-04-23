@@ -8,14 +8,6 @@ var mockfs    = require('mock-fs');
 var Migration = require('../lib/migration');
 
 describe('Migration', function() {
-  before(function(done) {
-    redis.flushdb(function(err) {
-      keys = fixtures.getKeys();
-
-      fixtures.loadFixtures(done);
-    });
-  });
-
   describe('constructor', function() {
     it('assigns the up and down argument as properties', function() {
       var up = {test: 'foo'};
