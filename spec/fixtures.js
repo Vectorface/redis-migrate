@@ -74,3 +74,27 @@ exports.getKeys = function() {
 
   return userKeys.concat(postKeys).concat(threadKeys);
 };
+
+/**
+ * Returns an example migration file's contents as a string.
+ *
+ * @returns {string} The file contents
+ */
+exports.getMigrationFileExample = function() {
+  return [
+    "exports.up = [",
+    "  {",
+    "    cmd:  'moveKeysToHashFields',",
+    "    src:  {key: /(namespace:model:\\d+):example/},",
+    "    dst:  {key: '$1:properties', field: 'example'}",
+    "  }",
+    "];\n",
+    "exports.down = [",
+    "  {",
+    "    cmd:  'moveHashFieldsToKeys',",
+    "    src:  {key: /(namespace:model:\\d+):properties/, field: 'example'},",
+    "    dst:  {key: '$1:example'}",
+    "  }",
+    "];\n"
+  ].join("\n");
+};

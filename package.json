@@ -18,7 +18,9 @@
     "devDependencies": {
         "mocha": "*",
         "expect.js": "*",
-        "fakeredis": "*"
+        "fakeredis": "*",
+        "sinon": "*",
+        "mock-fs": "2.2.0"
     },
     "bin": {
         "redis-migrate": "./bin/redis-migrate"
